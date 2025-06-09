@@ -1,0 +1,137 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: monospace;
+}
+
+#terminal {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+#output {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+#input-line {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-top: 1px solid var(--secondary);
+}
+
+#command {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: inherit;
+  font-family: inherit;
+  outline: none;
+}
+
+#cursor {
+  animation: blink 1s step-start 0s infinite;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+.error {
+  color: var(--error);
+}
+
+[data-theme="dark"] {
+  --background: #000000;
+  --foreground: #c8c8c8;
+  --accent: #00ff00;
+  --secondary: #00cc00;
+  --error: #ff0000;
+}
+
+[data-theme="light"] {
+  --background: #ffffff;
+  --foreground: #222222;
+  --accent: #0055ff;
+  --secondary: #0033aa;
+  --error: #ff0000;
+}
+
+[data-theme="dracula"] {
+  --background: #282a36;
+  --foreground: #f8f8f2;
+  --accent: #bd93f9;
+  --secondary: #ff79c6;
+  --error: #ff5555;
+}
+
+[data-theme="onedark"] {
+  --background: #282c34;
+  --foreground: #abb2bf;
+  --accent: #61afef;
+  --secondary: #98c379;
+  --error: #e06c75;
+}
+
+[data-theme="tokyo"] {
+  --background: #1a1b26;
+  --foreground: #c0caf5;
+  --accent: #7aa2f7;
+  --secondary: #9ece6a;
+  --error: #f7768e;
+}
+
+[data-theme="monokai"] {
+  --background: #272822;
+  --foreground: #f8f8f2;
+  --accent: #66d9ef;
+  --secondary: #a6e22e;
+  --error: #f92672;
+}
+
+[data-theme="nord"] {
+  --background: #2e3440;
+  --foreground: #d8dee9;
+  --accent: #88c0d0;
+  --secondary: #a3be8c;
+  --error: #bf616a;
+}
+
+[data-theme="cyberpunk"] {
+  --background: #0d0221;
+  --foreground: #ff00c8;
+  --accent: #00ffff;
+  --secondary: #ff006e;
+  --error: #ffbe0b;
+}
+
+[data-theme="hacker"] {
+  --background: #0f0f0f;
+  --foreground: #33ff33;
+  --accent: #00ff00;
+  --secondary: #33ff33;
+  --error: #ff0033;
+}
+
+[data-theme="retro"] {
+  --background: #f4f4d1;
+  --foreground: #3a3a3a;
+  --accent: #d95550;
+  --secondary: #7c5e99;
+  --error: #d3312b;
+}
+
+[data-theme="ocean"] {
+  --background: #012030;
+  --foreground: #a8e9ff;
+  --accent: #2dc7ff;
+  --secondary: #5ef1f5;
+  --error: #ff5c5c;
+}
