@@ -21,10 +21,40 @@
 ( o_o )
  > ^ <`,
 `  ,--.
- ( oo|\
-_/  /\
+ ( oo|\\
+_/  /\\
 (__)
 `];
+
+  const helpInfo = {
+    help: 'Show help information',
+    about: 'About the site owner',
+    projects: 'List portfolio projects',
+    skills: 'Show technical skills',
+    contact: 'Display contact information',
+    github: 'Open GitHub profile',
+    linkedin: 'Open LinkedIn profile',
+    email: 'Copy email address to clipboard',
+    theme: 'Change the color theme',
+    clear: 'Clear the terminal output',
+    cowsay: 'Display an ASCII cow',
+    joke: 'Random programming joke',
+    fortune: 'Random fortune message',
+    art: 'Show a random ASCII art piece',
+    weather: 'Show fake local weather',
+    stats: 'Display animated system stats',
+    cursor: 'Change the cursor style',
+    snake: 'Play the Snake game',
+    tetris: 'Play the Tetris simulation',
+    leaderboard: 'Show game high scores',
+    world: 'Interactive ASCII world demo'
+  };
+
+  const projectsData = [
+    {name: 'Terminal Portfolio', desc: 'This interactive portfolio site.'},
+    {name: 'Vanilla JS Games', desc: 'Collection of small browser games.'},
+    {name: 'Blog Template', desc: 'A lightweight static blog design.'}
+  ];
 
   function asciiClock() {
     const clockLine = document.createElement('div');
@@ -57,37 +87,43 @@ _/  /\
   const commands = {
     help(args) {
       if (args.length === 0) {
-        print('Available commands: ' + Object.keys(commands).join(', '));
+        print('Available commands:');
+        Object.keys(commands).forEach(c => {
+          const desc = helpInfo[c] || '';
+          print(`  ${c} - ${desc}`);
+        });
       } else {
         const cmd = args[0];
         if (commands[cmd]) {
-          print(`Usage information for ${cmd}`);
+          print(`${cmd}: ${helpInfo[cmd] || 'No details available.'}`);
         } else {
           print(`No help available for ${cmd}`, 'error');
         }
       }
     },
     about() {
-      print('This is a portfolio terminal for Codex.');
+      print('Codex is a software engineer who loves minimal UIs and JavaScript.');
     },
     projects() {
-      print('Project list coming soon...');
+      projectsData.forEach(p => print(`${p.name} - ${p.desc}`));
     },
     skills() {
-      print('Skills: JavaScript, HTML, CSS');
+      print('Skills: JavaScript, HTML, CSS, Node.js, Git');
     },
     contact() {
       print('Email: example@example.com');
+      print('GitHub: https://github.com/codexuser');
+      print('LinkedIn: https://www.linkedin.com/in/codexuser');
     },
     github() {
-      window.open('https://github.com/', '_blank');
+      window.open('https://github.com/codexuser', '_blank');
     },
     linkedin() {
-      window.open('https://www.linkedin.com/', '_blank');
+      window.open('https://www.linkedin.com/in/codexuser', '_blank');
     },
     email() {
       navigator.clipboard.writeText('example@example.com');
-      print('Email copied to clipboard');
+      print('Email copied to clipboard: example@example.com');
     },
     theme(args) {
       const theme = args[0];
@@ -117,7 +153,10 @@ _/  /\
       print('You will write great code today!');
     },
     art() {
-
+      const conditions = ['sunny','cloudy','rainy','windy','foggy','snowy'];
+      const cond = conditions[Math.floor(Math.random()*conditions.length)];
+      const temp = Math.floor(Math.random()*40)+50;
+      print(`Weather for ${city}: ${cond}, ${temp}\u00B0F`);
       const art = artCollection[Math.floor(Math.random()*artCollection.length)];
       print(art);
 

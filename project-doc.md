@@ -25,6 +25,8 @@ Create a personal portfolio website that mimics a retro terminal interface using
   - [x] 4.2 Implement `theme` command to switch themes via `data-theme`
 
 
+  - Added `helpInfo` and `projectsData` to provide real output for commands.
+9. Replaced placeholder command outputs with real data and added detailed help text.
 - [x] **5. Advanced Features**
   - [x] 5.1 ASCII welcome message and large art
   - [x] 5.2 Animated progress bars for system stats
