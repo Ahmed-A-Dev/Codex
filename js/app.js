@@ -117,14 +117,17 @@ _/  /\
       print('You will write great code today!');
     },
     art() {
+
       const art = artCollection[Math.floor(Math.random()*artCollection.length)];
       print(art);
+
     },
     weather(args) {
       const city = args.join(' ') || 'your location';
       print(`Weather for ${city} is sunny.`);
     },
     stats() {
+
       const lines = {
         cpu: document.createElement('div'),
         ram: document.createElement('div'),
@@ -148,6 +151,7 @@ _/  /\
         }
         if (done) clearInterval(interval);
       }, 50);
+
     },
     cursor(args) {
       const style = args[0];
@@ -166,6 +170,7 @@ _/  /\
     tetris() {
       startTetrisGame();
     },
+
     leaderboard(args) {
       const game = args[0] === 'tetris' ? 'tetris' : 'snake';
       const key = game === 'tetris' ? 'tetrisScores' : 'snakeScores';
@@ -206,6 +211,7 @@ _/  /\
         document.removeEventListener('keydown', key);
         print('World animation done.');
       },5000);
+
     }
   };
 

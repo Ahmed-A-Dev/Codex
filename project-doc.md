@@ -24,6 +24,7 @@ Create a personal portfolio website that mimics a retro terminal interface using
   - [x] 4.1 Define CSS themes (`dark`, `light`, `dracula`, `onedark`, `tokyo`, `monokai`, `nord`, `cyberpunk`, `hacker`, `retro`, `ocean`)
   - [x] 4.2 Implement `theme` command to switch themes via `data-theme`
 
+
 - [x] **5. Advanced Features**
   - [x] 5.1 ASCII welcome message and large art
   - [x] 5.2 Animated progress bars for system stats
@@ -40,7 +41,9 @@ Create a personal portfolio website that mimics a retro terminal interface using
 - Keep code modular: separate command definitions into functions.
 - Document any issues and resolutions here as development progresses.
   - Implemented command registry object for easy extension.
+
   - Exposed `print` as `window.termPrint` for use in game modules.
+
 
 ## Change History
 1. Initial plan created.
@@ -101,3 +104,4 @@ All issues identified have been resolved:
 
 ### Issue 9: Welcome message lacks ASCII art
 - [x] **Integrate art**: Update `welcome()` to print the large ASCII art from Issue 2 followed by greeting text.
+
