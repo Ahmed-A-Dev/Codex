@@ -5,6 +5,26 @@
   window.terminalInput = input;
   let history = [];
   let historyIndex = 0;
+  const welcomeArt = `
+   ____          _
+  / ___|___   __| | ___  _ __
+ | |   / _ \ / _\` |/ _ \| '__|
+ | |__| (_) | (_| | (_) | |
+  \____\___/ \__,_|\___/|_|
+  `;
+  const artCollection = [
+`  _   _
+ (.)_(.)
+  (o o)
+   \\_/`,
+` /\\/\\
+( o_o )
+ > ^ <`,
+`  ,--.
+ ( oo|\
+_/  /\
+(__)
+`];
 
   function asciiClock() {
     const clockLine = document.createElement('div');
@@ -18,8 +38,9 @@
   }
 
   function welcome() {
+    print(welcomeArt);
     print('Welcome to Codex Portfolio!');
-    print('Type \"help\" to see available commands.');
+    print('Type "help" to see available commands.');
   }
 
   function print(text, className) {
@@ -29,6 +50,9 @@
     output.appendChild(div);
     output.scrollTop = output.scrollHeight;
   }
+
+  // expose print so game functions can use it
+  window.termPrint = print;
 
   const commands = {
     help(args) {
@@ -78,7 +102,13 @@
     },
     cowsay(args) {
       const msg = args.join(' ') || 'moo';
-      print(` \\   ^__^\n  \\  (oo)\\_______\n     (__)\\       )\\/\n         ||----w |\n         ||     ||\n${msg}`);
+      const top = ' ' + '_'.repeat(msg.length + 2);
+      const bottom = ' ' + '-'.repeat(msg.length + 2);
+      const cow = `        \\   ^__^\n         \\  (oo)\\_______\n            (__)\\       )\\/\\\n                ||----w |\n                ||     ||`;
+      print(top);
+      print(`< ${msg} >`);
+      print(bottom);
+      print(cow);
     },
     joke() {
       print('Why do programmers prefer dark mode? Because light attracts bugs.');
@@ -87,20 +117,41 @@
       print('You will write great code today!');
     },
     art() {
-      print('ASCII ART: [*]');
+
+      const art = artCollection[Math.floor(Math.random()*artCollection.length)];
+      print(art);
+
     },
     weather(args) {
       const city = args.join(' ') || 'your location';
       print(`Weather for ${city} is sunny.`);
     },
     stats() {
-      function bar(value) {
-        const filled = Math.round(value / 5);
-        return '[' + '#'.repeat(filled) + '-'.repeat(20 - filled) + `] ${value}%`;
+
+      const lines = {
+        cpu: document.createElement('div'),
+        ram: document.createElement('div'),
+        disk: document.createElement('div')
+      };
+      Object.values(lines).forEach(l => output.appendChild(l));
+      const targets = {cpu:40, ram:70, disk:50};
+      const values = {cpu:0, ram:0, disk:0};
+      function bar(v){
+        const filled = Math.round(v / 5);
+        return '[' + '#'.repeat(filled) + '-'.repeat(20 - filled) + `] ${v}%`;
       }
-      print('CPU ' + bar(40));
-      print('RAM ' + bar(70));
-      print('DISK ' + bar(50));
+      const interval = setInterval(() => {
+        let done = true;
+        for (const key in values) {
+          if (values[key] < targets[key]) {
+            values[key]++;
+            lines[key].textContent = key.toUpperCase() + ' ' + bar(values[key]);
+            done = false;
+          }
+        }
+        if (done) clearInterval(interval);
+      }, 50);
+
     },
     cursor(args) {
       const style = args[0];
@@ -119,19 +170,48 @@
     tetris() {
       startTetrisGame();
     },
+
+    leaderboard(args) {
+      const game = args[0] === 'tetris' ? 'tetris' : 'snake';
+      const key = game === 'tetris' ? 'tetrisScores' : 'snakeScores';
+      const scores = JSON.parse(localStorage.getItem(key)||'[]').sort((a,b)=>b.score - a.score);
+      if (scores.length === 0) {
+        print('No scores yet.');
+        return;
+      }
+      print(game.toUpperCase() + ' LEADERBOARD');
+      scores.forEach(s => print(`${s.score} - ${s.date.slice(0,10)}`));
+    },
     world() {
-      const frames = ['-','\\','|','/'];
-      let i = 0;
-      const line = document.createElement('div');
-      output.appendChild(line);
-      const interval = setInterval(() => {
-        line.textContent = 'World spinning ' + frames[i % frames.length];
-        i++;
-      }, 200);
-      setTimeout(() => {
-        clearInterval(interval);
-        line.textContent = 'World animation done.';
-      }, 4000);
+      const width = 20, height = 10;
+      const worldDiv = document.createElement('div');
+      output.appendChild(worldDiv);
+      let player = {x:Math.floor(width/2), y:Math.floor(height/2)};
+      function draw(){
+        let g='';
+        for(let y=0;y<height;y++){
+          let r='';
+          for(let x=0;x<width;x++){
+            r += (x===player.x && y===player.y) ? '@' : '·';
+          }
+          g += r+'\n';
+        }
+        worldDiv.textContent=g;
+      }
+      function key(e){
+        if(e.key==='ArrowUp') player.y=Math.max(0,player.y-1);
+        if(e.key==='ArrowDown') player.y=Math.min(height-1,player.y+1);
+        if(e.key==='ArrowLeft') player.x=Math.max(0,player.x-1);
+        if(e.key==='ArrowRight') player.x=Math.min(width-1,player.x+1);
+        draw();
+      }
+      document.addEventListener('keydown', key);
+      draw();
+      setTimeout(()=>{
+        document.removeEventListener('keydown', key);
+        print('World animation done.');
+      },5000);
+
     }
   };
 
@@ -222,7 +302,7 @@ function startSnakeGame() {
     clearInterval(timer);
     document.removeEventListener('keydown', keyDown);
     saveScore('snakeScores', score);
-    print(`Game over! Final score: ${score}`);
+    window.termPrint(`Game over! Final score: ${score}`);
     window.terminalInput.focus();
   }
 
@@ -340,7 +420,7 @@ function startTetrisGame() {
     clearInterval(timer);
     document.removeEventListener('keydown', keyDown);
     saveScore('tetrisScores', score);
-    print(`Tetris over! Score: ${score}`);
+    window.termPrint(`Tetris over! Score: ${score}`);
     window.terminalInput.focus();
   }
 }

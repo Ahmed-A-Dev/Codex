@@ -24,7 +24,7 @@ Create a personal portfolio website that mimics a retro terminal interface using
   - [x] 4.1 Define CSS themes (`dark`, `light`, `dracula`, `onedark`, `tokyo`, `monokai`, `nord`, `cyberpunk`, `hacker`, `retro`, `ocean`)
   - [x] 4.2 Implement `theme` command to switch themes via `data-theme`
 
-- [ ] **5. Advanced Features**
+
 - [x] **5. Advanced Features**
   - [x] 5.1 ASCII welcome message and large art
   - [x] 5.2 Animated progress bars for system stats
@@ -42,6 +42,9 @@ Create a personal portfolio website that mimics a retro terminal interface using
 - Document any issues and resolutions here as development progresses.
   - Implemented command registry object for easy extension.
 
+  - Exposed `print` as `window.termPrint` for use in game modules.
+
+
 ## Change History
 1. Initial plan created.
 2. Project setup and base interface implemented.
@@ -49,4 +52,56 @@ Create a personal portfolio website that mimics a retro terminal interface using
 4. Added multiple color themes and theme command.
 5. Implemented welcome message, progress bars, cursor command, and ASCII clock.
 6. Added interactive world animation and basic Snake and Tetris games with localStorage leaderboards.
+7. Fixed scope issue for game functions by exposing `print` globally and updating `startSnakeGame` and `startTetrisGame`.
+8. Added welcome ASCII art, animated stats bars, interactive world controls, random art command, leaderboard command, assets folder, and fixed `cowsay`.
+
+## Issues
+
+All issues identified have been resolved:
+- ~~`print` not defined in game functions.~~
+- ~~Missing advanced features and welcome ASCII art.~~
+- ~~`art` command placeholder.~~
+- ~~Static `stats` command.~~
+- ~~Non-interactive `world` command.~~
+- ~~No leaderboard command.~~
+- ~~Missing `assets/` directory.~~
+- ~~Malformed `cowsay` output.~~
+- ~~Welcome message lacked ASCII art.~~
+
+## Issue Resolution Plan
+
+### Issue 1: `print` is not defined in game functions
+- [x] **Investigate scope**: Check how `print` is defined in `app.js` and why `startSnakeGame` and `startTetrisGame` cannot access it.
+- [x] **Expose `print` globally**: Attach the `print` function to `window` or pass it as an argument to the game functions.
+- [x] **Update game functions**: Modify `startSnakeGame` and `startTetrisGame` to use the global `print` or received parameter.
+- [x] **Verify**: Run the `snake` and `tetris` commands and confirm no errors appear in the console.
+
+### Issue 2: Missing advanced features
+- [x] **Add large ASCII welcome art**: Create a multiline ASCII art string and display it in `welcome()`.
+- [x] **Animated progress bars**: Enhance `stats` command to animate bars over time instead of static text.
+- [x] **Interactive world component**: Replace placeholder spinning text with a small canvas or ASCII animation reacting to input.
+
+### Issue 3: `art` command placeholder
+- [x] **Create ASCII art collection**: Store several art pieces in an array or object.
+- [x] **Implement random selection**: `art` command should print a random piece from the collection.
+
+### Issue 4: `stats` command lacks animation
+- [x] **Implement animation loop**: Update bars smoothly using `setInterval` until reaching target values.
+
+### Issue 5: `world` command not interactive
+- [x] **Design interaction**: Decide on keyboard/mouse controls for the ASCII world.
+- [x] **Implement controls**: Update `world` command to respond to events and update output accordingly.
+
+### Issue 6: No leaderboard view commands
+- [x] **Create `leaderboard` command**: Display top scores from `snakeScores` or `tetrisScores` in `localStorage`.
+- [x] **Support arguments**: `leaderboard snake` or `leaderboard tetris` to choose game.
+
+### Issue 7: Missing `assets/` directory
+- [x] **Create directory or update docs**: Either add `assets/` folder if needed for future images/files or remove reference from docs.
+
+### Issue 8: Malformed `cowsay`
+- [x] **Fix template**: Adjust string formatting so ASCII cow renders correctly around the message.
+
+### Issue 9: Welcome message lacks ASCII art
+- [x] **Integrate art**: Update `welcome()` to print the large ASCII art from Issue 2 followed by greeting text.
 
